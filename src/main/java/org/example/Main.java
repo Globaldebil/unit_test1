@@ -1,9 +1,21 @@
 package org.example;
 
-import java.lang.reflect.Array;
+
 import java.util.*;
 
 public class Main {
+    //Функкция на вход идёт массив из чётного количества целых чисел
+    //Функция возвращает минимизированную максимальную сумму пар после оптимального объединения элементов в пары
+    public static int minPairSum(int[] nums) {
+        Arrays.sort(nums);
+        int output = 0;
+        for(int i = 0; i < nums.length; i++){
+            output = Math.max(output, nums[i]+nums[nums.length-1-i]);
+        }
+        return output;
+    }
+    //Функция на вход принимает двумерный массив чисел
+    //На выход идёт массив чисел, пройденных по диагонали
     public static int[] findDiagonalOrder(List<List<Integer>> nums) {
         List<Integer> out = new ArrayList<>();
         if (nums.size() == 1) {
@@ -39,15 +51,30 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
-
-        List<List<Integer>> list = new ArrayList<>();
-        int[] a = new int[] {14,12,19,16,9};
-        list.add(Arrays.stream(a).boxed().toList());
-        a = new int[] {13,14,15,8,11};
-        list.add(Arrays.stream(a).boxed().toList());
-        a = new int[] {11,13,1};
-        list.add(Arrays.stream(a).boxed().toList());
-        a = findDiagonalOrder(list);
-        for (int n: a) System.out.print(n + " ");
+        System.out.println("Choose your task \n1. Min Pair Sum. \n2. Find Diagonal Order");
+        int a = in.nextInt();
+        in.nextLine();
+        int n = in.nextInt();
+        in.nextLine();
+        switch (a){
+            case 1 ->{
+                int[] arr = new int[n];
+                for(int i = 0; i < n; i++) arr[i] = in.nextInt();
+                System.out.println(minPairSum(arr));
+            }
+            case 2 ->{
+                List<List<Integer>> list = new ArrayList<>();
+                String str;
+                for (int j = 0; j < n; j++) {
+                    str = in.nextLine();
+                    String[] s = str.split(" ");
+                    int[] arr = new int[s.length];
+                    for (int i = 0; i < s.length; i++) arr[i] = Integer.parseInt(s[i]);
+                    list.add(Arrays.stream(arr).boxed().toList());
+                }
+                int[] out = findDiagonalOrder(list);
+                for (int j : out) System.out.print(j + " ");
+            }
+        }
     }
 }
