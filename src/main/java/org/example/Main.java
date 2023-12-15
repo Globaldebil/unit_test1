@@ -36,30 +36,84 @@ public class Main {
         else output = -1;
         return output;
     }
-    public static void main(String[] args) {
-        try{
-            Scanner in = new Scanner(file);
-            int w = in.nextInt(), h = in.nextInt();
-            int n = in.nextInt();
-            boolean[][] holst = new boolean[w][h];
-            for(int i = 0; i < w; i++){
-                for(int j = 0; j < h; j++) holst[i][j] = true;
-            }
-            int[][] coords = new int[n][4];
-            for(int i = 0; i < n; i++){
-                for(int j = 0; j < 4; j++){
-                    coords[i][j] = in.nextInt();
+    public static int[] cowsAndBulls(String num1, String num2){
+        int[] out = new int[2];
+        int cow = 0, bull = 0;
+        if ((num1.length() == 4) && (num2.length() == 4)) {
+            char[] n1 = num1.toCharArray();
+            char[] n2 = num2.toCharArray();
+            Set<Character> setn1 = new HashSet<>();
+            Set<Character> setn2 = new HashSet<>();
+            boolean repeat = false;
+            for(int i = 0; i < 4; i++){
+                if(!setn1.contains(n1[i])){
+                    setn1.add(n1[i]);
                 }
+                else repeat = true;
+                if(!setn2.contains(n2[i])){
+                    setn2.add(n2[i]);
+                }
+                else repeat = true;
             }
-            in.close();
-
-            FileWriter fileOutputStream = new FileWriter(new File("src/main/java/org/example/text/output.txt"));
-            fileOutputStream.append(String.valueOf(painter(holst, coords, n)));
-            fileOutputStream.close();
-        } catch (FileNotFoundException e){
-            e.printStackTrace();
-        } catch (IOException e){
-            e.printStackTrace();
+            CowsLoop:
+            if (!repeat) {
+                for (int i = 0; i < num1.length(); i++) {
+                    for (int j = 0; j < num2.length(); j++) {
+                        if (((n1[j] >= '0') && (n1[j] <= '9')) && ((n2[j] >= '0') && (n2[j] <= '9'))) {
+                            if (n1[i] == n2[j]) {
+                                if (i == j)
+                                    bull++;
+                                else
+                                    cow++;
+                            }
+                        } else {
+                            out[0] = -1;
+                            out[1] = -2;
+                            break CowsLoop;
+                        }
+                    }
+                }
+                out[0] = bull;
+                out[1] = cow;
+            } else {
+                out[0] = -1;
+                out[1] = -3;
+            }
+        } else {
+            out[0] = -1;
+            out[1] = -1;
         }
+        return out;
+    }
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        String str = in.nextLine();
+        String[] s = str.split(" ");
+        int[] out = cowsAndBulls(s[0],s[1]);
+        System.out.println(out[0] + " " + out[1]);
+//        try{
+//            Scanner in = new Scanner(file);
+//            int w = in.nextInt(), h = in.nextInt();
+//            int n = in.nextInt();
+//            boolean[][] holst = new boolean[w][h];
+//            for(int i = 0; i < w; i++){
+//                for(int j = 0; j < h; j++) holst[i][j] = true;
+//            }
+//            int[][] coords = new int[n][4];
+//            for(int i = 0; i < n; i++){
+//                for(int j = 0; j < 4; j++){
+//                    coords[i][j] = in.nextInt();
+//                }
+//            }
+//            in.close();
+//
+//            FileWriter fileOutputStream = new FileWriter(new File("src/main/java/org/example/text/output.txt"));
+//            fileOutputStream.append(String.valueOf(painter(holst, coords, n)));
+//            fileOutputStream.close();
+//        } catch (FileNotFoundException e){
+//            e.printStackTrace();
+//        } catch (IOException e){
+//            e.printStackTrace();
+//        }
     }
 }
