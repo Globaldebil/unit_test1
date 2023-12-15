@@ -80,6 +80,11 @@ class MainTest {
                 int[] out = new int[]{0,4};
                 Assertions.assertArrayEquals(out, Main.cowsAndBulls("1234","4321"));
             }
+            @Test
+            void test5(){
+                int[] out = new int[]{0,0};
+                Assertions.assertArrayEquals(out, Main.cowsAndBulls("1234","5678"));
+            }
         }
     }
     @Nested
